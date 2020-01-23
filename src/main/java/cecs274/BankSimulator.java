@@ -10,12 +10,11 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * BankSimulator stimulate an employing using a transaction application in a bank
- * He can make transaction, create new account, close account or range search
+ * BankSimulator stimulate an employing using a transaction application in a
+ * bank He can make transaction, create new account, close account or range
+ * search
  *
- *  @author     Binh Trinh
- *              Alfonso Villalobos
- *              Sebastian Valencia
+ * @author Binh Trinh
  */
 
 public class BankSimulator {
@@ -31,8 +30,7 @@ public class BankSimulator {
     // Enum type that has Bank Loan, or Bank Account
 
     public enum AccountType {
-        BANK_ACCOUNT("Bank Account"),
-        BANK_LOAN ("Bank Loan");
+        BANK_ACCOUNT("Bank Account"), BANK_LOAN("Bank Loan");
 
         private String displayName;
 
@@ -68,12 +66,10 @@ public class BankSimulator {
             try {
                 bank.writeData(new PrintWriter(input + ".txt"));
                 System.out.printf("Data written to %s.txt%n", input);
-            }
-            catch (FileNotFoundException ex) {
+            } catch (FileNotFoundException ex) {
                 System.out.println("File not found");
             }
-        }
-        else {
+        } else {
             File input = new File(args[0]);
 
             try {
@@ -84,10 +80,9 @@ public class BankSimulator {
                 bank.writeData(new PrintWriter(args[0]));
             }
 
-            catch(FileNotFoundException ex) {
+            catch (FileNotFoundException ex) {
                 System.out.println("File not found");
-            }
-            catch (InvalidInterestRateForLoan | InvalidCheckingInterestRate | InvalidMoneyMarketInterestRate
+            } catch (InvalidInterestRateForLoan | InvalidCheckingInterestRate | InvalidMoneyMarketInterestRate
                     | InvalidSavingsInterestRate | CustomerOwnsAccountAlready | LimitOnAccountsExceeded
                     | LimitOnLoansExceeded | LimitOnSavingsAccountsExceeded | LimitOnMoneyMarketAccountExceeded ex) {
                 System.out.println(ex.getMessage());
@@ -110,7 +105,7 @@ public class BankSimulator {
     /**
      * Initialize the app. Every interaction starts here
      */
-    public static void initializeApp () {
+    public static void initializeApp() {
         String choice;
         do {
             System.out.println(DASHES);
@@ -134,8 +129,7 @@ public class BankSimulator {
             else if (choice.startsWith("r")) {
                 rangeSearch();
             }
-        }
-        while (!choice.startsWith("q"));
+        } while (!choice.startsWith("q"));
     }
 
     /**
@@ -151,13 +145,11 @@ public class BankSimulator {
             if (accountType != null) {
                 if (accountType == AccountType.BANK_ACCOUNT) {
                     bankAccountRangeSearch();
-                }
-                else if (accountType == AccountType.BANK_LOAN) {
+                } else if (accountType == AccountType.BANK_LOAN) {
                     bankLoanRangeSearch();
                 }
             }
-        }
-        while (backHere);
+        } while (backHere);
     }
 
     /**
@@ -176,16 +168,14 @@ public class BankSimulator {
 
         if (lowerBound < 0 || upperBound < 0) {
             System.out.println("Invalid input");
-        }
-        else {
+        } else {
             try {
                 rangeList = bank.rangeSearchBankLoan(lowerBound, upperBound);
                 System.out.println("This is your list!");
                 for (int i = 0; i < rangeList.size(); i++) {
                     System.out.println(rangeList.get(i));
                 }
-            }
-            catch (IllegalArgumentException | NoSuchElementException ex) {
+            } catch (IllegalArgumentException | NoSuchElementException ex) {
                 System.out.println(ex);
             }
         }
@@ -207,16 +197,14 @@ public class BankSimulator {
 
         if (lowerBound < 0 || upperBound < 0) {
             System.out.println("Invalid input");
-        }
-        else {
+        } else {
             try {
                 rangeList = bank.rangeSearchBankAccount(lowerBound, upperBound);
                 System.out.println("This is your list!");
                 for (int i = 0; i < rangeList.size(); i++) {
                     System.out.println(rangeList.get(i));
                 }
-            }
-            catch (IllegalArgumentException | NoSuchElementException ex) {
+            } catch (IllegalArgumentException | NoSuchElementException ex) {
                 System.out.println(ex);
             }
         }
@@ -229,14 +217,13 @@ public class BankSimulator {
         do {
             backHere = true;
             System.out.println(DASHES);
-            System.out.println ("Close Account.");
+            System.out.println("Close Account.");
             System.out.println(DASHES);
             accountType = accountTypePrompt();
             if (accountType != null) {
                 closeAccountPrompt();
             }
-        }
-        while (backHere);
+        } while (backHere);
     }
 
     /**
@@ -257,24 +244,22 @@ public class BankSimulator {
                     bankCustomer = bank.findBankCustomer(input);
                     if (bankCustomer != null) {
                         executeCloseAccount(bankCustomer);
-                    }
-                    else {
+                    } else {
                         System.out.print("Not found. Try again. Press N for No: ");
                         tryAgain = console.nextLine().trim().toLowerCase();
                     }
-                }
-                catch(IllegalArgumentException ex) {
+                } catch (IllegalArgumentException ex) {
                     System.out.println(ex.getMessage());
                     System.out.print("Try again? Press Press N for No: ");
                     tryAgain = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!input.startsWith("q") && !tryAgain.equals("n"));
+        } while (!input.startsWith("q") && !tryAgain.equals("n"));
     }
 
     /**
      * prompt user for account number to be closed
+     * 
      * @param bankCustomer BankCustomer object to be closed account from
      */
     public static void executeCloseAccount(BankCustomer bankCustomer) {
@@ -295,8 +280,7 @@ public class BankSimulator {
                         bank.printBankCustomerAccounts(bankCustomer);
                         System.out.println("One more?");
                         tryAgain = console.nextLine().trim().toLowerCase();
-                    }
-                    catch (CustomerDoNotOwnThisAccount ex) {
+                    } catch (CustomerDoNotOwnThisAccount ex) {
                         System.out.println(ex.getMessage());
                         System.out.print("Try again? Press N for No: ");
                         tryAgain = console.nextLine().trim().toLowerCase();
@@ -315,8 +299,7 @@ public class BankSimulator {
                         bank.printBankCustomerAccounts(bankCustomer);
                         System.out.println("One more?");
                         tryAgain = console.nextLine().trim().toLowerCase();
-                    }
-                    catch (CustomerDoNotOwnThisLoan | LoanHasNotBeenPaidOff ex) {
+                    } catch (CustomerDoNotOwnThisLoan | LoanHasNotBeenPaidOff ex) {
                         System.out.println(ex.getMessage());
                         System.out.print("Try again? Press N for No: ");
                         tryAgain = console.nextLine().trim().toLowerCase();
@@ -324,8 +307,7 @@ public class BankSimulator {
                 }
             }
 
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
     }
 
     /**
@@ -340,12 +322,10 @@ public class BankSimulator {
             accountType = accountTypePrompt();
             if (accountType == AccountType.BANK_ACCOUNT) {
                 newBankAccountPrompt();
-            }
-            else if (accountType == AccountType.BANK_LOAN) {
+            } else if (accountType == AccountType.BANK_LOAN) {
                 newBankAccountPrompt();
             }
-        }
-        while (backHere);
+        } while (backHere);
     }
 
     /**
@@ -385,8 +365,7 @@ public class BankSimulator {
                             System.out.println("again?");
                             again = console.nextLine().trim().toLowerCase();
                         }
-                    }
-                    else if (accountType == AccountType.BANK_LOAN) {
+                    } else if (accountType == AccountType.BANK_LOAN) {
                         BankLoan bankLoan = createNewLoanAccount(bankCustomer);
                         if (bankLoan != null) {
 
@@ -396,15 +375,14 @@ public class BankSimulator {
                         }
                     }
 
-                }
-                while (!again.startsWith("n"));
+                } while (!again.startsWith("n"));
             }
-        }
-        while (!input.startsWith("q"));
+        } while (!input.startsWith("q"));
     }
 
     /**
      * Create new bank loan prompt
+     * 
      * @param bankCustomer Bank Customer object that wants to loan
      * @return BankLoan object just created
      */
@@ -424,21 +402,20 @@ public class BankSimulator {
                 if (interestRate != -1) {
                     try {
                         result = bank.createBankLoan(bankCustomer, balance, interestRate, LocalDate.now());
-                    }
-                    catch (InvalidInterestRateForLoan | LimitOnLoansExceeded ex) {
+                    } catch (InvalidInterestRateForLoan | LimitOnLoansExceeded ex) {
                         System.out.println(ex.getMessage());
                         System.out.print("Try again? Press N for No: ");
                         tryAgain = console.nextLine().trim().toLowerCase();
                     }
                 }
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
         return result;
     }
 
     /**
      * Create new bank account prompt
+     * 
      * @param bankCustomer Bank Customer object that wants to create account
      * @return BankAccount object just created
      */
@@ -462,11 +439,12 @@ public class BankSimulator {
 
                     if (interestRate != -1) {
                         try {
-                            result = bank.createBankAccount(bankCustomer, typeOfBankAccount, balance, interestRate, LocalDate.now());
-                        }
-                        catch (InvalidSavingsInterestRate | InvalidCheckingInterestRate | InvalidMoneyMarketInterestRate
-                                | LimitOnMoneyMarketAccountExceeded | LimitOnSavingsAccountsExceeded |
-                                LimitOnAccountsExceeded | CustomerOwnsAccountAlready ex) {
+                            result = bank.createBankAccount(bankCustomer, typeOfBankAccount, balance, interestRate,
+                                    LocalDate.now());
+                        } catch (InvalidSavingsInterestRate | InvalidCheckingInterestRate
+                                | InvalidMoneyMarketInterestRate | LimitOnMoneyMarketAccountExceeded
+                                | LimitOnSavingsAccountsExceeded | LimitOnAccountsExceeded
+                                | CustomerOwnsAccountAlready ex) {
                             System.out.println(ex.getMessage());
                             System.out.print("Try again? Press N for no: ");
                             tryAgain = console.nextLine().trim().toLowerCase();
@@ -474,13 +452,13 @@ public class BankSimulator {
                     }
                 }
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
         return result;
     }
 
     /**
      * Ask user whether it's checking, money market, or savings account
+     * 
      * @return
      */
     public static BankAccount.AccountType bankAccountTypePrompt() {
@@ -506,13 +484,13 @@ public class BankSimulator {
                 System.out.print("Try again? Press N for No: ");
                 tryAgain = console.nextLine().trim().toLowerCase();
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
         return result;
     }
 
     /**
      * Ask user customer information to create a new Bank Customer Object
+     * 
      * @return BankCustomer object just created
      */
     public static BankCustomer newCustomer() {
@@ -541,22 +519,21 @@ public class BankSimulator {
                             dateOfBirth = LocalDate.parse(DOB);
                             bankCustomer = bank.createBankCustomer(firstName, lastName, dateOfBirth);
 
-                        }
-                        catch (DateTimeParseException ex) {
+                        } catch (DateTimeParseException ex) {
                             System.out.print("Invalid date. Try again? Press N for no: ");
                             again = console.nextLine().trim().toLowerCase();
                         }
                     }
                 }
             }
-        }
-        while (!again.startsWith("n"));
+        } while (!again.startsWith("n"));
         return bankCustomer;
 
     }
 
     /**
      * ask user for full name if he picked existing customer
+     * 
      * @return BankCustomer object that matches the name
      */
     public static BankCustomer existingCustomer() {
@@ -578,15 +555,13 @@ public class BankSimulator {
                         System.out.print("Not found. Try again? Press N for no: ");
                         tryAgain = console.nextLine().trim().toLowerCase();
                     }
-                }
-                catch (IllegalArgumentException ex) {
+                } catch (IllegalArgumentException ex) {
                     System.out.println(ex.getMessage());
                     System.out.print("Try again? Press N for no: ");
                     tryAgain = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!input.startsWith("q") && !tryAgain.startsWith("n"));
+        } while (!input.startsWith("q") && !tryAgain.startsWith("n"));
         return bankCustomer;
     }
 
@@ -617,12 +592,12 @@ public class BankSimulator {
                     bankLoanTransaction(bankLoan);
                 }
             }
-        }
-        while (backHere);
+        } while (backHere);
     }
 
     /**
      * BankAccount Transaction main menu
+     * 
      * @param bankAccount account to be performed transactions
      */
     public static void bankAccountTransaction(BankAccount bankAccount) {
@@ -655,12 +630,12 @@ public class BankSimulator {
             else if (choice.startsWith("t")) {
                 transferBankAccount(bankAccount);
             }
-        }
-        while (!choice.startsWith("q"));
+        } while (!choice.startsWith("q"));
     }
 
     /**
-     * BankLoan  Transaction main menu
+     * BankLoan Transaction main menu
+     * 
      * @param bankLoan BankLoan to be transacted
      */
     public static void bankLoanTransaction(BankLoan bankLoan) {
@@ -682,12 +657,12 @@ public class BankSimulator {
             else if (choice.startsWith("m")) {
                 makePayment(bankLoan);
             }
-        }
-        while (!choice.startsWith("q"));
+        } while (!choice.startsWith("q"));
     }
 
     /**
      * make payment prompt screen for bank loan
+     * 
      * @param bankLoan BankLoan object to be made payment
      */
     public static void makePayment(BankLoan bankLoan) {
@@ -706,19 +681,18 @@ public class BankSimulator {
                     System.out.println("Successful. New balance: ");
                     System.out.println(bankLoan);
                     System.out.println(DASHES);
-                }
-                catch (IllegalArgumentException ex) {
+                } catch (IllegalArgumentException ex) {
                     System.out.println(ex.getMessage());
                     System.out.print("Try again? Y/N ");
                     tryAgain = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
     }
 
     /**
      * transfer Bank Account prompt screen
+     * 
      * @param bankAccount BankAccount to be transferred from
      */
     public static void transferBankAccount(BankAccount bankAccount) {
@@ -744,12 +718,12 @@ public class BankSimulator {
                 System.out.print("Try again? Y/N ");
                 tryAgain = console.nextLine().trim().toLowerCase();
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
     }
 
     /**
      * Deposit Bank Account Prompt Screen
+     * 
      * @param bankAccount BankAccount to be deposited
      */
     public static void depositBankAccount(BankAccount bankAccount) {
@@ -776,12 +750,12 @@ public class BankSimulator {
                     tryAgain = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
     }
 
     /**
      * Withdrawal BankAccount prompt screen
+     * 
      * @param bankAccount BankAccount to be withdrawn
      */
     public static void withdrawBankAccount(BankAccount bankAccount) {
@@ -804,12 +778,12 @@ public class BankSimulator {
                 System.out.print("Try again? Y/N? ");
                 tryAgain = console.nextLine().trim().toLowerCase();
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
     }
 
     /**
      * Prompt and validate number
+     * 
      * @param prompt message to be displayed on screen
      * @return a number got from user as double
      */
@@ -831,13 +805,13 @@ public class BankSimulator {
             catch (NumberFormatException ex) {
                 System.out.println("Invalid input. Please enter a positive integer");
             }
-        }
-        while (!stop);
+        } while (!stop);
         return amount;
     }
 
     /**
      * Ask for type of account, bank account or bank loan
+     * 
      * @return accountType
      */
     public static AccountType accountTypePrompt() {
@@ -872,13 +846,13 @@ public class BankSimulator {
             else if (input.startsWith("q")) {
                 backHere = false;
             }
-        }
-        while (!tryAgain.startsWith("n"));
+        } while (!tryAgain.startsWith("n"));
         return result;
     }
 
     /**
      * Prompt for account number, then find bank account object
+     * 
      * @return BankAccount object found
      */
     public static BankAccount findBankAccount() {
@@ -902,13 +876,13 @@ public class BankSimulator {
                     again = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!again.startsWith("n") && !exit);
+        } while (!again.startsWith("n") && !exit);
         return bankAccount;
     }
 
     /**
      * Prompt for account number, then find bank loan object
+     * 
      * @return BankLoan object found
      */
     public static BankLoan findBankLoan() {
@@ -932,13 +906,13 @@ public class BankSimulator {
                     again = console.nextLine().trim().toLowerCase();
                 }
             }
-        }
-        while (!again.startsWith("n") && !exit);
+        } while (!again.startsWith("n") && !exit);
         return bankLoan;
     }
 
     /**
      * Ask for account number
+     * 
      * @return account number as an integer
      */
     public static int accountNumberPrompt() {
@@ -956,8 +930,7 @@ public class BankSimulator {
 
                 if (accountNumber <= 0 && accountNumber != -1) {
                     System.out.println("Please enter a positive number");
-                }
-                else {
+                } else {
                     stop = true;
                 }
             }
@@ -965,8 +938,7 @@ public class BankSimulator {
             catch (NumberFormatException ex) {
                 System.out.println("Invalid input. Please enter a positive number.");
             }
-        }
-        while (!stop);
+        } while (!stop);
         return accountNumber;
     }
 }
