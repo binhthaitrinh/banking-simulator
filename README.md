@@ -8,6 +8,13 @@ Data Structure and Algorithm Class Final Project. This is an application that si
 - Compile the program
 - Change cwd to taget/classes, then run java cecs274/BankSimulator
 
+## Classes explaination
+
+- `Bank` : Bank is a class that mimic real-world bank system that has Bank Customer, Bank Account, Bank Loan objects.
+- `BankAccount` : The BankAccount class models a bank account. It represents a bank account by its owner,type of account, balance, interest rate, and the date that account is opened.
+- `BankLoan` : The BankLoan class models a bank loan. It represents a bank loan by its owner, type of account, balance, interest rate, and the date that account is opened
+- `BankSimulator`: BankSimulator stimulate an employing using a transaction application in a bank, user can make transaction, create new account, close account or range search
+
 ## Contributors
 
 - Binh Trinh - Initial Work
